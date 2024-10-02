@@ -23,17 +23,17 @@ final GoRouter router = GoRouter(
         );
       },
       // для следующей лабораторной работы
-      // routes: [
-      // GoRoute(
-      // path: 'article/:id',
-      // pageBuilder: (context, state) {
-      // return NoTransitionPage<void>(
-      // key: state.pageKey,
-      // child: const ArticleScreen(),
-      // );
-      // },
-      // ),
-      // ],
+      routes: [
+        GoRoute(
+          path: 'article/:id',
+          pageBuilder: (context, state) {
+            return NoTransitionPage<void>(
+              key: state.pageKey,
+              child: const ArticleScreen(),
+            );
+          },
+        ),
+      ],
     ),
   ],
 );

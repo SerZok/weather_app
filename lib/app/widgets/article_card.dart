@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/extensions/widget_extensions.dart';
 import 'package:weather_app/app/features/home/home_screen.dart';
@@ -13,7 +13,8 @@ class ArticleCard extends StatelessWidget {
     return InkWell(
       onTap: () {
 // для следующей лабораторной работы
-// context.go('/home/article/1');
+
+    context.go('/home/article/1');
       },
       borderRadius: BorderRadius.circular(5),
       child: Row(

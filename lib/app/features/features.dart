@@ -1,1 +1,2 @@
-export 'home/home_screen.dart';
+export 'home/home.dart';
+export 'about/about.dart';
