@@ -3,10 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/extensions/widget_extensions.dart';
 import 'package:weather_app/app/features/home/home_screen.dart';
+import 'package:weather_app/domain/repository/model/article.dart';
 
 class ArticleCard extends StatelessWidget {
   const ArticleCard({
-    super.key,
+    super.key, required Article article,
   });
   @override
   Widget build(BuildContext context) {
