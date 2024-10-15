@@ -4,6 +4,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/di/di.dart';
+import 'package:weather_app/domain/repository/model/article.dart';
 
 final GlobalKey<NavigatorState> _rootNavigationKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
@@ -22,14 +23,15 @@ final GoRouter router = GoRouter(
           child: const HomeScreen(),
         );
       },
-      // для следующей лабораторной работы
       routes: [
         GoRoute(
           path: 'article/:id',
           pageBuilder: (context, state) {
+          final Article article = state.extra as Article; 
+
             return NoTransitionPage<void>(
               key: state.pageKey,
-              child: const ArticleScreen(),
+              child:ArticleScreen(article: article),
             );
           },
         ),

@@ -9,9 +9,12 @@ import '../domain/domain.dart';
 final getIt = GetIt.instance;
 final Dio dio = Dio();
 final talker = TalkerFlutter.init();
+final List<String> cities = ['London','Moscow','Чебоксары'];
+
 Future<void> setupLocator() async {
   setUpDio();
+  getIt.registerSingleton<Dio>(dio);
   getIt.registerSingleton(talker);
-  getIt.registerSingleton(TopNewsRepository(dio: getIt<Dio>()));
+  getIt.registerSingleton(TopNewsRepository(dio: getIt<Dio>(),cities: cities));
   getIt.registerSingleton(HomeBloc(getIt.get<TopNewsRepository>()));
 }

@@ -5,7 +5,7 @@ void setUpDio() {
   dio.options.baseUrl =
       'http://api.weatherapi.com/v1'; // общая часть адресов запросов
   dio.options.queryParameters.addAll({
-    'api_token':
+    'key':
         '6bd7997c9dce42dcb9c170642240809', // сюда нужно будет подставить ключ/токен, выданный при регистрации
   });
   dio.options.connectTimeout = const Duration(minutes: 1);

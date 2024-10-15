@@ -7,47 +7,47 @@ import 'package:weather_app/domain/repository/model/article.dart';
 
 class ArticleCard extends StatelessWidget {
   const ArticleCard({
-    super.key, required Article article,
+    super.key,
+    required this.article,
   });
+
+  final Article article; // Параметр для хранения переданного объекта
+  //final Article myarticle;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-// для следующей лабораторной работы
-
-    context.go('/home/article/1');
+        // для следующей лабораторной работы
+        //context.go('/home/article/1');
+        context.go('/home/article/${article.location.name}', extra: article);
       },
       borderRadius: BorderRadius.circular(5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Image.asset(
-              width: 100,
-              height: 100,
-              'assets/images/test_image.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
           20.pw,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Title',
+                  article.location.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 5.ph,
                 Text(
-                  'Description',
+                  'Температура: ${article.current.tempC}°C', // Пример использования текущей температуры
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
+                10.ph,
+                Text(
+                  'Время: ${article.location.localtime}',
+                )
               ],
             ),
           ),
