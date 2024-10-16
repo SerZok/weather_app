@@ -36,6 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+   void _deleteArticle(Article article) {
+    _cityService.removeCity(article.location.name);
+    _homeBloc.topNewsRepository.cityService = _cityService;
+    _homeBloc.add(const HomeLoad());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,7 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       shrinkWrap: true,
                       itemCount: articles.length,
                       itemBuilder: (context, index) {
-                        return ArticleCard(article: articles[index]);
+                      return ArticleCard(
+                          article: articles[index],
+                          onDelete: () => _deleteArticle(articles[index]), // Передаем коллбэк для удаления
+                        );
                       },
                       separatorBuilder: (context, index) => 20.ph,
                     ),

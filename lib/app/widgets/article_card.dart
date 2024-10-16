@@ -9,9 +9,11 @@ class ArticleCard extends StatelessWidget {
   const ArticleCard({
     super.key,
     required this.article,
+    required this.onDelete,
   });
 
   final Article article; // Параметр для хранения переданного объекта
+  final VoidCallback onDelete; // Коллбэк для удаления статьи
 
   @override
   Widget build(BuildContext context) {
@@ -43,62 +45,13 @@ class ArticleCard extends StatelessWidget {
                 ),
                 10.ph,
                 Text(
-                  'Время: ${article.location.localtime}',
+                  'Последнее обновление: ${article.current.lastUpdated}',
                 )
               ],
             ),
           ),
+          IconButton(onPressed: onDelete, icon: Icon(Icons.delete))
         ],
-      ),
-    );
-  }
-}
-
-class ArticleListScreen extends StatefulWidget {
-  ArticleListScreen({super.key, required this.articles});
-
-  final List<Article> articles;
-  
-
-  @override
-  State<ArticleListScreen> createState() => _ArticleListScreenState();
-}
-
-class _ArticleListScreenState extends State<ArticleListScreen> {
-late List<Article> _articles;
-  final TopNewsRepository _repository = getIt<TopNewsRepository>(); // Используем DI для получения репозитория
-
-
-  Future<void> _refreshArticles() async {
-    await Future.delayed(const Duration(seconds: 2)); // Пример задержки для демонстрации
-    List<Article> updatedArticles = await _repository.getWeather(); // Запрашиваем обновленные данные из API
-
-    setState(() {
-      // Обновление состояния, можно обновить articles с новыми данными
-
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Погода'),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refreshArticles, // Метод для обновления данных
-        child: ListView.separated(
-          padding: const EdgeInsets.all(20),
-          itemCount: widget.articles.length,
-          itemBuilder: (context, index) {
-            return ArticleCard(
-              article: widget.articles[index],
-            );
-          },
-          separatorBuilder: (context, index) {
-            return 20.ph;
-          },
-        ),
       ),
     );
   }
