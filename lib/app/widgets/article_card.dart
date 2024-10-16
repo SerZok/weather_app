@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather_app/app/extensions/widget_extensions.dart';
-import 'package:weather_app/di/di.dart';
 import 'package:weather_app/domain/repository/model/article.dart';
-import 'package:weather_app/domain/repository/top_news/top_news_repository.dart';
 
 class ArticleCard extends StatelessWidget {
   const ArticleCard({
@@ -43,6 +41,7 @@ class ArticleCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
+
                 10.ph,
                 Text(
                   'Последнее обновление: ${article.current.lastUpdated}',
@@ -50,7 +49,12 @@ class ArticleCard extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(onPressed: onDelete, icon: Icon(Icons.delete))
+          15.ph,
+          IconButton(
+            onPressed: onDelete, 
+            icon: Icon(Icons.delete),
+            iconSize: 30,
+          ),
         ],
       ),
     );

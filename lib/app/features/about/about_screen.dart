@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:go_router/go_router.dart';
-import 'package:weather_app/app/app.dart';
-import 'package:weather_app/app/extensions/widget_extensions.dart';
+// import 'package:weather_app/app/app.dart';
+// import 'package:weather_app/app/extensions/widget_extensions.dart';
 import 'package:weather_app/domain/repository/model/article.dart';
 
 

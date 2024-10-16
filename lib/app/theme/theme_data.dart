@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/app/theme/theme_colors.dart';
-import 'package:weather_app/app/theme/theme.dart';
+// import 'package:weather_app/app/theme/theme.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {

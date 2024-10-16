@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/extensions/widget_extensions.dart';
-import 'package:weather_app/app/router/router.dart';
-import 'package:weather_app/app/widgets/article_card.dart';
 import 'package:weather_app/di/di.dart';
 import 'package:weather_app/domain/domain.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _homeBloc = HomeBloc(getIt<TopNewsRepository>());
   final _cityController = TextEditingController();  // Контроллер для поиска города
-  late CityService _cityService = getIt<CityService>();  // Получаем сервис городов
+  final CityService _cityService = getIt<CityService>();  // Получаем сервис городов
 
   @override
   void initState() {
@@ -49,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Главная'),
           actions: [
-            IconButton(//RELOAD
+            //RELOAD
+            IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: () {
                 _homeBloc.add(const HomeLoad());
