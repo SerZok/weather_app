@@ -17,11 +17,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _homeBloc = HomeBloc(getIt<TopNewsRepository>());
+  final _cityController = TextEditingController();  // Контроллер для поиска города
+  late CityService _cityService = getIt<CityService>();  // Получаем сервис городов
 
   @override
   void initState() {
-    _homeBloc.add(const HomeLoad());
+    _homeBloc.add(const HomeLoad()); // Загрузка данных при инициализации
     super.initState();
+  }
+
+  void _addCity() {
+    final city = _cityController.text.trim();
+    if (city.isNotEmpty && !_cityService.cities.contains(city)) {
+      _cityService.addCity(city);  // Добавляем новый город в список
+      _homeBloc.topNewsRepository.cityService = _cityService;
+      _homeBloc.add(const HomeLoad());  // Запускаем загрузку данных с новым городом
+      _cityController.clear();  // Очищаем поле поиска
+    }
   }
 
   @override
@@ -29,17 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Главная',
-          ),
+          title: const Text('Главная'),
+          actions: [
+            IconButton(//RELOAD
+              icon: const Icon(Icons.refresh),
+              onPressed: () {
+                _homeBloc.add(const HomeLoad());
+              },
+            ),
+          ],
         ),
         body: BlocBuilder<HomeBloc, HomeState>(
           bloc: _homeBloc,
           builder: (context, state) {
             if (state is HomeLoadInProgress) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
             if (state is HomeLoadSuccess) {
               List<Article> articles = state.articles;
@@ -53,18 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     20.ph,
+                    _buildSearchField(),  // Добавляем поле поиска
+                    20.ph,
                     ListView.separated(
                       primary: false,
                       shrinkWrap: true,
                       itemCount: articles.length,
                       itemBuilder: (context, index) {
-                        return ArticleCard(
-                          article: articles[index],
-                        );
+                        return ArticleCard(article: articles[index]);
                       },
-                      separatorBuilder: (context, index) {
-                        return 20.ph;
-                      },
+                      separatorBuilder: (context, index) => 20.ph,
                     ),
                   ],
                 ),
@@ -83,6 +97,27 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
+    );
+  }
+
+  // Поле поиска и кнопка добавления города
+  Widget _buildSearchField() {
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: _cityController,
+            decoration: InputDecoration(
+              labelText: 'Введите город',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: _addCity,  // Метод для добавления города
+        ),
+      ],
     );
   }
 }
