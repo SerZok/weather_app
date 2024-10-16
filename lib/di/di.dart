@@ -12,7 +12,7 @@ final talker = TalkerFlutter.init();
 final CityService cityService = CityService();
 
 class CityService {
-  final List<String> _cities = ['London'];
+  final List<String> _cities = ['Москва'];
   
   List<String> get cities => _cities;
 
@@ -32,4 +32,5 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(CityService());
   getIt.registerSingleton(TopNewsRepository(dio: getIt<Dio>(), cityService:cityService));
   getIt.registerSingleton(HomeBloc(getIt.get<TopNewsRepository>()));
+  getIt.registerSingleton(AboutBloc(getIt.get<TopNewsRepository>()));
 }

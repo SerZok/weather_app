@@ -50,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: () {
+                
+
                 _homeBloc.add(const HomeLoad());
               },
             ),
@@ -72,9 +74,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Погода',
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
+
                     20.ph,
-                    _buildSearchField(),  // Добавляем поле поиска
-                    20.ph,
+                    Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _cityController,
+                                decoration: InputDecoration(
+                                  labelText: 'Введите город',
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: _addCity,  // Метод для добавления города
+                            ),
+                          ],
+                        ),
+
+                    20.ph, //Поисковая строка
                     ListView.separated(
                       primary: false,
                       shrinkWrap: true,
@@ -104,27 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-    );
-  }
-
-  // Поле поиска и кнопка добавления города
-  Widget _buildSearchField() {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _cityController,
-            decoration: InputDecoration(
-              labelText: 'Введите город',
-              border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: _addCity,  // Метод для добавления города
-        ),
-      ],
     );
   }
 }
