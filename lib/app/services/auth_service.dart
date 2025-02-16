@@ -1,48 +1,45 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:weather_app/domain/domain.dart';
 
-class AuthServiceInterface {
-}
+class AuthService {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-class AuthService extends AuthServiceInterface {
-  @override
   Future<void> signUp({
     required String email,
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw e.message.toString();
+      throw e.message ?? 'Ошибка регистрации';
     }
   }
 
-  @override
   Future<void> logIn({
     required String email,
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw e.message.toString();
+      throw e.message ?? 'Ошибка входа';
     }
   }
 
-  @override
   Future<void> logOut() async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      throw e.message.toString();
+      throw e.message ?? 'Ошибка выхода';
     }
   }
+
+  User? getCurrentUser() {
+    return _firebaseAuth.currentUser;
+  }
 }
-
-

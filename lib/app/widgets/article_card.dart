@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather_app/app/extensions/widget_extensions.dart';
 import 'package:weather_app/domain/repository/model/article.dart';
+import 'package:weather_app/app/features/favorite/bloc/favorites_bloc.dart';
 
 class ArticleCard extends StatelessWidget {
   const ArticleCard({
@@ -10,8 +12,8 @@ class ArticleCard extends StatelessWidget {
     required this.onDelete,
   });
 
-  final Article article; // Параметр для хранения переданного объекта
-  final VoidCallback onDelete; // Коллбэк для удаления статьи
+  final Article article;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +38,42 @@ class ArticleCard extends StatelessWidget {
                 ),
                 5.ph,
                 Text(
-                  'Температура: ${article.current.tempC}°C', // Пример использования текущей температуры
+                  'Температура: ${article.current.tempC}°C',
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-
                 10.ph,
-                Text(
-                  'Последнее обновление: ${article.current.lastUpdated}',
-                )
+                Text('Последнее обновление: ${article.current.lastUpdated}'),
               ],
             ),
           ),
           15.ph,
+          BlocBuilder<FavoritesBloc, FavoritesState>(
+            builder: (context, state) {
+              bool isFavorite = false;
+               if (state is FavoritesLoaded) {
+                isFavorite = state.favorites.any((fav) => fav.location.name == article.location.name);
+              }
+
+              return IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : null,
+                ),
+                onPressed: () {
+                  if (isFavorite) {
+                    context.read<FavoritesBloc>().add(RemoveFromFavorites(article.location.name));
+                  } else {
+                    context.read<FavoritesBloc>().add(AddToFavorites(article.location.name));
+                  }
+                },
+              );
+            },
+          ),
           IconButton(
-            onPressed: onDelete, 
-            icon: Icon(Icons.delete),
+            onPressed: onDelete,
+            icon: const Icon(Icons.delete),
             iconSize: 30,
           ),
         ],
